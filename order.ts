@@ -1,4 +1,5 @@
 type Pizza = {
+    id: number,
     name: string,
     price: number
 }
@@ -6,15 +7,15 @@ type Pizza = {
 type Order = {
     id: number,
     pizza : Pizza,
-    status: string 
+    status: "ordered" | "completed"
 }
 
 const menu: Pizza[] = [
-    { name: "Margherite", price: 8 },
-    { name: "Pepperoni", price: 10 },
-    { name: "Vegetarian", price: 9 },
-    { name: "Hawaiian", price: 11 },
-    { name: "BBQ Chicken", price: 12 },
+    {id: 1, name: "Margherite", price: 8 },
+    {id: 2, name: "Pepperoni", price: 10 },
+    {id: 3, name: "Vegetarian", price: 9 },
+    {id: 4, name: "Hawaiian", price: 11 },
+    {id: 5, name: "BBQ Chicken", price: 12 },
 ];
 
 let cashInRegister = 100;
@@ -40,7 +41,7 @@ const placeOrder = (pizzaName: string) => {
         id: nextOrderId,
         pizza : selectedPizza,
         status: "ordered"  
-    }
+    } 
     orderQueue.push(newOrder);
     nextOrderId++;
 
@@ -54,17 +55,26 @@ const completeOrder = (orderId: number) => {
         console.error(`${orderId} does not exist in the orders`);
         return
     }
-    
 
     selectedOrder.status = "completed";
-
     return selectedOrder
 
 }
 
-addNewPizza({ name: "Four Cheese", price: 13 });
-addNewPizza({ name: "Buffalo", price: 14 });
-addNewPizza({ name: "Spinach", price: 10 });
+// Be explicit when ever you can
+const getPizzaDetail = (identifier: string | number): Pizza | undefined => {
+    if (typeof identifier == "string") {
+        return menu.find(p => p.name === identifier);
+    }else if (typeof identifier == "number") {
+        return menu.find(p => p.id === identifier);
+    }else{
+        throw new TypeError("Parameter 'identifier' must be either a string or a number");
+    }
+}
+
+addNewPizza({id: 6, name: "Four Cheese", price: 13 });
+addNewPizza({id: 7, name: "Buffalo", price: 14 });
+addNewPizza({id: 8, name: "Spinach", price: 10 });
 
 placeOrder("Spinach");
 completeOrder(1);

@@ -240,4 +240,59 @@ function addNewBook(newBook: Omit<Book, "id">): Book{
 
 addNewBook({ title: "Atomic Habits", genre: "non-fiction" });
 
-console.log(books);
+
+// Generics
+// Act like function parameters, but for types
+const gameScores = [14, 21, 33, 42, 59];
+const favouriteThings = [
+  "whiskers on kittens",
+  "bright copper kettles",
+  "warm woolen mittens",
+  "brown paper packages tied up with strings"
+];
+const voters = [
+  {
+    name: "Alice",
+    age: 30
+  },
+  {
+    name: "Bob",
+    age: 45
+  },
+  {
+    name: "Charlie",
+    age: 22
+  }
+]
+
+function getLastItem<T>(array: T[]): T | undefined{
+  return array[array.length - 1]
+}
+
+getLastItem(gameScores);
+getLastItem(favouriteThings);
+getLastItem(voters);
+
+
+// Using Generics
+function addToArray<T>(array: T[], item: T): T | undefined {
+  array.push(item)
+  return item
+}
+
+const addToArray_ = <T,>(array: T[], item: T): T | undefined => {
+  array.push(item)
+  return item
+};
+
+
+// Explicitly Type generic function calls
+type Voter = {
+  name: string,
+  age: number
+}
+
+addToArray<Voter>(voters, {
+    name: "Diaz",
+    age: 24
+})

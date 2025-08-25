@@ -83,10 +83,11 @@ to those exact values, often used with unions (e.g., "ordered" | "completed") to
 // hover the mouse pointer on the variable
 let name_01 = "Bob";
 const name_02 = "Bob";
-
+// let nameCheck: "Bob" = name_01; Type string is not assignable toType "Bob"
+let nameCheck_: "Bob" = name_02;
 
 // Unions
-type UserRole = "Admin" | "User";
+type UserRole = "Admin" | "User"; // lliteral Types
 let user_01: UserRole = "Admin";
 
 type User = {
@@ -167,3 +168,76 @@ if (typeof value === "string") {
 }
 
 
+// void return Type
+const printName = (): void => {
+    console.log("amila");
+}
+
+
+// Utility Types and Partial
+/* 
+Utility => Like a function, they take other types in as a parameter and
+return a new type, with some changes made to it. Use "Generics"
+syntax modifications to existing types. 
+ 
+Partial Type => This modifies the type you pass in and 
+turns all properties into optional properties.
+*/ 
+
+type Book = {
+    id: number;
+    title: string;
+    genre: "fiction" | "non-fiction" | "mystery" | "biography";
+};
+
+type updateBook = Partial<Book>
+
+const books: Book[] = [
+    { id: 1, title: "The Great Gatsby", genre: "fiction" },
+    { id: 2, title: "Sapiens", genre: "non-fiction" },
+    { id: 3, title: "The Da Vinci Code", genre: "mystery" },
+    { id: 4, title: "Steve Jobs", genre: "biography" }
+];
+
+function updateBook(id: number, updates: updateBook): void {
+    let selectedBook: Book | undefined = books.find(b => b.id === id);
+    
+    if (!selectedBook) {
+        throw Error(`Book with id : ${id} not found`)
+    }
+
+    Object.assign(selectedBook, updates)
+
+}
+
+// Example updates
+updateBook(1, { title: "The Great Gatsby (Revised)" });
+updateBook(4, { genre: "non-fiction" });
+
+
+// Omit Utility Type
+/*
+Omit takes in a type AND a string (or union of strings)
+property name(s), and returns a new type with those
+properties removed.
+
+Omit<Book, "id" | title> 
+{
+  genre: "fiction" | "non-fiction" | "mystery" | "biography";
+}
+*/ 
+
+function addNewBook(newBook: Omit<Book, "id">): Book{
+  const book = {
+    id: books.length++,
+    ... newBook
+  }
+  books.push(book);
+
+  return book;
+}
+
+
+addNewBook({ title: "Atomic Habits", genre: "non-fiction" });
+
+console.log(books);

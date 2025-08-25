@@ -22,13 +22,16 @@ let cashInRegister = 100;
 const orderQueue: Order[] = []
 let nextOrderId = 0;
 
-const showMenu = () =>  menu.forEach( p => console.log(`name : ${p.name} price : ${p.price}`) )
+const showMenu = (): void =>  menu.forEach( p => console.log(`name : ${p.name} price : ${p.price}`) )
 
-const addNewPizza = (pizza: Pizza) => {
-    menu.push(pizza)
+const addNewPizza = (pizza: Omit<Pizza, "id">): void => {
+    menu.push({
+        id: menu.length++,
+        ...pizza
+    })
 }
 
-const placeOrder = (pizzaName: string) => {
+const placeOrder = (pizzaName: string): Order | undefined => {
     const selectedPizza: Pizza | undefined = menu.find(p => p.name == pizzaName); 
     
     if (!selectedPizza) {
@@ -48,7 +51,7 @@ const placeOrder = (pizzaName: string) => {
     return newOrder
 }
 
-const completeOrder = (orderId: number) => {
+const completeOrder = (orderId: number): Order | undefined => {
     const selectedOrder: Order | undefined = orderQueue.find(o => o.id === orderId);
 
     if (!selectedOrder) {
@@ -72,9 +75,9 @@ const getPizzaDetail = (identifier: string | number): Pizza | undefined => {
     }
 }
 
-addNewPizza({id: 6, name: "Four Cheese", price: 13 });
-addNewPizza({id: 7, name: "Buffalo", price: 14 });
-addNewPizza({id: 8, name: "Spinach", price: 10 });
+addNewPizza({name: "Four Cheese", price: 13 });
+addNewPizza({name: "Buffalo", price: 14 });
+addNewPizza({name: "Spinach", price: 10 });
 
 placeOrder("Spinach");
 completeOrder(1);

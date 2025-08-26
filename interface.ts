@@ -89,7 +89,6 @@ type Specification = typeof project.secification
 
 // interfaces can be merged
 // "interfaces are open" and "type aliases are closed"
-
 interface Bird{
     wings:number;
 }
@@ -104,3 +103,42 @@ let bird_01: Bird = {
 }
 
 
+// type aliases can be used for classes too
+interface IVehicle {
+    make: string;
+    model: string;
+    year: number;
+    start(): void;
+}
+
+type TVehicle = {
+    make: string;
+    model: string;
+    year: number;
+    start(): void;
+}
+
+// class Car implements IVehicle {
+class Car implements TVehicle{
+    make: string;
+    model: string;
+    year: number;
+
+    constructor(make: string, model: string, year: number) {
+        this.make = make;
+        this.model = model;
+        this.year = year;
+    }
+
+    start() {
+        console.log(`${this.make} ${this.model} started.`);
+    }
+}
+
+
+/*
+Interfaces provide more shorter, consice error messages
+
+Interfaces were faster in the past, these days types aliases
+and interfaces does not show significance difference
+*/

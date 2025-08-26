@@ -296,3 +296,13 @@ addToArray<Voter>(voters, {
     name: "Diaz",
     age: 24
 })
+
+
+// Enums
+enum ResourceType {
+  Gold = 300,
+  Silver = 200,
+  Bronze = 100
+}
+
+let resource:ResourceType = ResourceType.Gold;

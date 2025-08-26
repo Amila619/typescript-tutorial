@@ -6,25 +6,27 @@ and in many cases you can choose between them freely,
 
 // intersection
 type TUserProps = {
-    name: string,
-    regNumber: string,
-    age: number
+    name: string;
+    regNumber: string;
+    age: number;
 } 
 
 type TAdminProps = TUserProps & {
-    role: string   
+    role: string;
 }
 
 // extending
 interface IUserProps {
-    name: string,
-    regNumber: string,
-    age: number
+    name: string;
+    regNumber: string;
+    age: number;
 }
 
 interface IAdminProps extends IUserProps {
-    role: string
+    role: string;
 }
+
+
 
 /*
 interface can only describe object - tupe alias can
@@ -41,6 +43,8 @@ but only with ugly syntax
 
 
 */ 
+
+
 
 // utility types
 type CardProps = {
@@ -68,4 +72,35 @@ interface IAddress extends Array<number | string>{
 
 const address_01: TAddress = [2, "main st"]
 const address_02: IAddress = [3, "new st"];
+
+
+// extracting type from something else
+const project = {
+    title: "Project 1",
+    secification: {
+        areaSize: 100,
+        rooms: 3
+    }
+}
+
+// type alias
+type Specification = typeof project.secification
+
+
+// interfaces can be merged
+// "interfaces are open" and "type aliases are closed"
+
+interface Bird{
+    wings:number;
+}
+
+interface Bird{
+    color: string;
+}
+
+let bird_01: Bird = {
+    wings: 2,
+    color: "green"
+}
+
 
